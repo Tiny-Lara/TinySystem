@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>@lara</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.5.0/mdb.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        outline: none;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    
+    body {
+
+      display:none;
+        background: transparent;
+        position: absolute;
+        background-attachment: fixed;
+        background-position: center;
+        background-image: url(monitor.png);
+        background-size: 50%;
+        background-repeat: no-repeat;
+        left: 550px;
+        top: 230px;
+    }
+    
+    #supporttickets {}
+    /* 
+       body {
+        position: absolute;
+        background-attachment: fixed;
+        background-position: center;
+        overflow: visible;
+        background-image: url(monitor.png);
+        background-size: 50%;
+        background-repeat: no-repeat;
+        left: 550px;
+        top: 230px;
+    }
+    */
+    
+     ::-webkit-scrollbar {
+        display: none;
+    }
+    
+     ::-webkit-scrollbar-track {
+        background: #1D1914;
+    }
+    
+     ::-webkit-scrollbar-thumb {
+        background: #555;
+    }
+    
+     ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+    
+    #tabs {
+        margin-left: 30%;
+        background-color: rgb(59, 29, 255);
+    }
+    
+    #reloadbtn {
+        margin-left: 80%;
+        background-color: rgb(59, 29, 255);
+    }
+</style>
+
+<body>
+
+
+
+
+    <!-- Tabs navs -->
+    <ul class="nav nav-tabs mb-3" id="" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="ex1-tab-1" data-mdb-toggle="tab" href="#ex1-tabs-1" role="tab" aria-controls="ex1-tabs-1" aria-selected="true">Tickets</a
+     >
+   </li>
+
+  
+
+
+
+  
+ </ul>
+ <!-- Tabs navs -->
+ 
+
+ <!-- Tabs content -->
+ <div class="tab-content" id="ex1-content" >
+
+   <div class="tab-pane fade show active" id="ex1-tabs-1" role="tabpanel" aria-labelledby="ex1-tab-1" style=" height: 345px; max-height: 345px;">
+
+
+    
+      <button type="button" class="btn btn-danger btn-sm px-3" onclick="exitbtn()" style="background-color: red; float: right; ">
+         <i class="fas fa-times"></i>
+       </button>
+
+       <button type="button" id="ticketscount" class="btn btn-danger btn-sm px-3" onclick="close()" style="background-color: rgb(43, 43, 43); float: right; margin-right: 20px;">
+        0
+      </button>
+      
+      
+      <button type="button" class="btn btn-danger btn-sm px-3" id="reloadbtn" onclick="reload()">
+         <i class="fas fa-sync"></i>
+       </button>
+
+    <div style="
+    height: 315px;
+    overflow: auto;
+    width:  840px;
+   
+    ">
+      <table class="table laragn-middle" >
+
+         <thead>
+           <tr>
+             <th scope="col">ID</th>
+             <th scope="col">Steamname</th>
+             <th scope="col">Beschreibung</th>
+             <th scope="col">Aktionen</th>
+           </tr>
+         </thead>
+
+         <tbody id="supporttickets" >
+          
+         
+          
+         </tbody>
+       </table>
+      </div>   
+   </div>
+
+
+
+
+  
+ 
+ </div>
+
+ <script>
+
+
+
+
+
+
+   function reload() {
+      $.post('http://lara_ticketsystem/reload', JSON.stringify({
+            
+        }));
+   }
+
+
+   function clearTickets() {
+        document.getElementById("supporttickets").innerHTML = "";
+        ticketcount = 0;
+        $('#ticketscount').html(ticketcount);
+    }
+
+    function closeTicket(ticketid) {
+        $.post('http://lara_ticketsystem/closeTicket', JSON.stringify({
+            id: ticketid
+        }));
+    }
+    
+    
+  function revive(lara) {
+        $.post('http://lara_ticketsystem/revive', JSON.stringify({
+            id: lara
+        }));
+    }
+    
+      function bring(lara) {
+        $.post('http://lara_ticketsystem/bring', JSON.stringify({
+            id: lara
+        }));
+    }
+    
+      function goto(lara) {
+        $.post('http://lara_ticketsystem/goto', JSON.stringify({
+            id: lara
+        }));
+    }
+    
+    
+    
+    
+    function revive2(lara) {
+        $.post('http://lara_ticketsystem/revive', JSON.stringify({
+            id: document.getElementById('form2').value
+        }));
+    }
+    
+      function bring2(lara) {
+        $.post('http://lara_ticketsystem/bring', JSON.stringify({
+            id: document.getElementById('form2').value
+        }));
+    }
+    
+      function goto2(lara) {
+        $.post('http://lara_ticketsystem/goto', JSON.stringify({
+            id: document.getElementById('form2').value
+        }));
+    }
+       function kill(lara) {
+        $.post('http://lara_ticketsystem/kill', JSON.stringify({
+            id: document.getElementById('form2').value
+        }));
+    }
+      function kick(lara) {
+        $.post('http://lara_ticketsystem/kick', JSON.stringify({
+            id: document.getElementById('form2').value
+        }));
+    }
+    
+    
+    function exitbtn() {
+    $('body').hide();
+            $.post("http://lara_ticketsystem/close", JSON.stringify({}));
+    }
+   
+
+   var ticketcount = 0;
+
+
+    document.onkeyup = function(data) {
+        if (data.which == 27) {
+          $('body').hide();
+            $.post("http://lara_ticketsystem/close", JSON.stringify({}));
+             
+            return
+        }
+    };
+
+    $(document).ready(function() {
+        window.addEventListener('message', function(event) {
+            var data = event.data;
+            var kek = event.data.type;
+
+            if (kek == "openHTML") {
+              $('body').show();
+            } else if (kek == "clearTickets") {
+                clearTickets();
+            } else if (kek == "addTicket") {
+    var id = event.data.id
+    var steamname = event.data.name
+    var beschreibung = event.data.msg
+   
+
+
+    supporttickets.innerHTML +=    `
+   <tr>
+               <th scope="row" id="ticket">${id}</th>
+               <td>${steamname}</td>
+               <td>${beschreibung}</td>
+               <td>
+                 <button type="button" class="btn btn-danger btn-sm px-3" onclick="closeTicket(${event.data.ticketid})">
+                   <i class="fas fa-times"></i>
+                 </button>
+  
+                 <button type="button" class="btn btn-danger btn-sm px-3" onclick="revive(${id})" style="background-color: rgb(22, 124, 22);">
+                     REVIVE
+                  </button>
+  
+                  <button type="button" class="btn btn-danger btn-sm px-3" onclick="goto(${id})" style="background-color: rgb(51, 89, 216);">
+                    Zu ihm teleportieren
+                 </button>
+  
+                 <button type="button" class="btn btn-danger btn-sm px-3" onclick="bring(${id})" style="background-color: rgb(51, 89, 216);">
+                    Zu mir teleportieren
+                 </button>
+               </td>
+             </tr>
+   `; 
+
+
+            ticketcount = ticketcount + 1;
+            $('#ticketscount').html(ticketcount);
+  } else if (kek == "close") {
+    $('body').hide();
+            }
+
+        });
+    });
+
+  
+ 
+</script>
+ </script>
+
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.5.0/mdb.min.js"></script>
+</body>
+</html>
