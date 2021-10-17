@@ -48,7 +48,7 @@ end)
 
 RegisterCommand('entfesseln', function(source, args)
     if aduty then
-        TriggerEvent('rw:handcuffweg')
+        TriggerEvent('TL:handcuffweg')
         ESX.ShowNotification("Du hast dich entfesselt.")
     else
         ESX.ShowNotification("Du bist nicht im Admindienst.")
@@ -294,18 +294,18 @@ AddEventHandler('teleport', function(x,y,z)
     SetEntityCoords(PlayerPedId(), x, y, z, 0, 0, 0, false)
 end)
 
-RegisterNetEvent('administratornotify')
-AddEventHandler('administratornotify', function(msg, title)
-    ESX.TriggerServerCallback('rw:getGroup', function(group)
+RegisterNetEvent('adminnotify')
+AddEventHandler('adminnotify', function(msg, title)
+    ESX.TriggerServerCallback('TL:getGroup', function(group)
         if group == "projektleitung" or group == "manager" or group == "headadmin" or group == "administrator" or group == "dev" or group == "moderator" or group == "supporter" or group == "guide" then
-            TriggerEvent('notifications', "#029488", "Support" .. title, "Grund: " .. msg)
+            TriggerEvent('notifications', "#029488", "SUPPORT - " .. title, "Grund: " .. msg)
         end
     end)
 end)
 
-RegisterNetEvent('administratornotify2')
-AddEventHandler('administratornotify2', function(msg, title)
-    ESX.TriggerServerCallback('rw:getGroup', function(group)
+RegisterNetEvent('adminnotify2')
+AddEventHandler('adminnotify2', function(msg, title)
+    ESX.TriggerServerCallback('TL:getGroup', function(group)
         if group == "projektleitung" or group == "manager" or group == "headadmin" or group == "administrator" or group == "dev" or group == "moderator" or group == "supporter" or group == "guide" then
             TriggerEvent('notifications', "#029488", "Team" .. title, msg)
         end
@@ -379,7 +379,7 @@ Citizen.CreateThread(function()
         if IsDisabledControlJustPressed(0, 56) then
 
 
-            ESX.TriggerServerCallback('rw:getGroup', function(group)
+            ESX.TriggerServerCallback('TL:getGroup', function(group)
                 if group == "guide" 
                 or group == "supporter" 
                 or group == "moderator" 
@@ -563,7 +563,7 @@ end
 
 RegisterNetEvent("toggleAduty")
 AddEventHandler("toggleAduty", function()
-    ESX.TriggerServerCallback('rw:getGroup', function(group)
+    ESX.TriggerServerCallback('TL:getGroup', function(group)
         if group == "projektleitung" or group == "manager" or group == "headadmin" or group == "administrator" or group == "dev" or group == "moderator" or group == "supporter" or group == "guide" then
             local playerPed = PlayerPedId()
             if aduty then
@@ -591,7 +591,7 @@ end)
 
 RegisterNetEvent('spenceristeinhslglara')
 AddEventHandler('spenceristeinhslglara', function(msg)
-    ESX.TriggerServerCallback('rw:getGroup', function(group)
+    ESX.TriggerServerCallback('TL:getGroup', function(group)
         if group == "guide" 
         or group == "supporter" 
         or group == "moderator" 
@@ -608,7 +608,7 @@ end)
 
 RegisterNetEvent('lara_client:notifyTeam')
 AddEventHandler('lara_client:notifyTeam', function(msg)
-    ESX.TriggerServerCallback('rw:getGroup', function(group)
+    ESX.TriggerServerCallback('TL:getGroup', function(group)
         if group == "projektleitung" or group == "manager" or group == "headadmin" or group == "administrator" or group == "dev" or group == "moderator" or group == "supporter" or group == "guide" then
             TriggerEvent('notifications', "#029488", "TinySystem", msg)
         end
@@ -618,7 +618,7 @@ end)
 RegisterCommand('tp', function(source, args)
 
 
-    ESX.TriggerServerCallback('rw:getGroup', function(group)
+    ESX.TriggerServerCallback('TL:getGroup', function(group)
         if group == "guide" 
         or group == "supporter" 
         or group == "moderator" 
@@ -651,8 +651,8 @@ AddEventHandler('esx:playerLoaded', function(playerData)
     TriggerServerEvent('lara_client:notifyTeam', GetPlayerServerId(PlayerId()))
 end)
 
-RegisterNetEvent("skadmin:toggleFastSwim")
-AddEventHandler("skadmin:toggleFastSwim", function()
+RegisterNetEvent("lara_aduty:toggleFastSwim")
+AddEventHandler("lara_aduty:toggleFastSwim", function()
   fastSwim = not fastSwim
   if fastSwim then
     SetSwimMultiplierForPlayer(PlayerId(), 1.49)
@@ -663,8 +663,8 @@ AddEventHandler("skadmin:toggleFastSwim", function()
   end
 end)
 
-RegisterNetEvent("skadmin:toggleFastSprint")
-AddEventHandler("skadmin:toggleFastSprint", function()
+RegisterNetEvent("lara_aduty:toggleFastSprint")
+AddEventHandler("lara_aduty:toggleFastSprint", function()
   fastSprint = not fastSprint
   if fastSprint then
     SetRunSprintMultiplierForPlayer(PlayerId(), 1.49)
@@ -675,8 +675,8 @@ AddEventHandler("skadmin:toggleFastSprint", function()
   end
 end)
 
-RegisterNetEvent("skadmin:toggleSuperJump")
-AddEventHandler("skadmin:toggleSuperJump", function()
+RegisterNetEvent("lara_aduty:toggleSuperJump")
+AddEventHandler("lara_aduty:toggleSuperJump", function()
   superJump = not superJump
   if superJump then
     ESX.ShowNotification("~b~Super Jump activated")
@@ -685,8 +685,8 @@ AddEventHandler("skadmin:toggleSuperJump", function()
   end
 end)
 
-RegisterNetEvent("skadmin:toggleNoRagDoll")
-AddEventHandler("skadmin:toggleNoRagDoll", function()
+RegisterNetEvent("lara_aduty:toggleNoRagDoll")
+AddEventHandler("lara_aduty:toggleNoRagDoll", function()
   noRagDoll = not noRagDoll
   SetPedCanRagdoll( GetPlayerPed(-1), not noRagDoll )
   if noRagDoll then
@@ -698,7 +698,7 @@ end)
 
 RegisterCommand('sj', function(source, args)
     if aduty then
-        TriggerEvent('skadmin:toggleSuperJump')
+        TriggerEvent('lara_aduty:toggleSuperJump')
         ESX.ShowNotification("SuperJump an/aus.")
     else
         ESX.ShowNotification("Du bist nicht im Admindienst.")
@@ -719,7 +719,7 @@ end)
 
 RegisterCommand('nrd', function(source, args)
     if aduty then
-        TriggerEvent('skadmin:toggleNoRagDoll')
+        TriggerEvent('lara_aduty:toggleNoRagDoll')
         ESX.ShowNotification("NoRagDoll an/aus.")
     else
         ESX.ShowNotification("Du bist nicht im Admindienst.")
@@ -728,7 +728,7 @@ end)
 
 RegisterCommand('fs', function(source, args)
     if aduty then
-        TriggerEvent('skadmin:toggleFastSprint')
+        TriggerEvent('lara_aduty:toggleFastSprint')
         ESX.ShowNotification("FastSprint an/aus.")
     else
         ESX.ShowNotification("Du bist nicht im Admindienst.")
@@ -748,7 +748,7 @@ AddEventHandler("playerSpawned", function(spawn)
 end)
 
 RegisterCommand('tc', function(source, args)
-    ESX.TriggerServerCallback('rw:getGroup', function(group)
+    ESX.TriggerServerCallback('TL:getGroup', function(group)
         if group == "guide" 
         or group == "supporter" 
         or group == "moderator" 
@@ -848,7 +848,7 @@ Citizen.CreateThread(function()
         if IsDisabledControlJustPressed(0, 57) then
 
 
-            ESX.TriggerServerCallback('rw:getGroup', function(group)
+            ESX.TriggerServerCallback('TL:getGroup', function(group)
                 if group == "guide" 
                 or group == "supporter" 
                 or group == "moderator" 

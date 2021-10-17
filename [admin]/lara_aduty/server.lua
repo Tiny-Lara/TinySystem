@@ -39,15 +39,15 @@ end)
 
 RegisterServerEvent('reloadchar')
 AddEventHandler('reloadchar', function(target)
-    TriggerClientEvent('rw:setplayerinclouds', target)
+    TriggerClientEvent('TL:setplayerinclouds', target)
     Wait(500)
-    TriggerClientEvent('rw:endjoinsession', target)
+    TriggerClientEvent('TL:endjoinsession', target)
 end)
 
 local ticketData = {}
 
-RegisterServerEvent('rw:closeTicket')
-AddEventHandler('rw:closeTicket', function(id)
+RegisterServerEvent('TL:closeTicket')
+AddEventHandler('TL:closeTicket', function(id)
     TriggerClientEvent('notifications', ticketData[id]["id"], "#029488", "Support", "Dein Ticket wurde geschlossen.")
     TriggerClientEvent('notifications', source, "#029488", "Support", "Du hast das Ticket geschlossen.")
     ticketData[id] = nil
@@ -64,11 +64,11 @@ RegisterCommand("supportcancel", function(source, args)
     end
 end, false)
 
-RegisterServerEvent('rw:loadSupportAPP')
-AddEventHandler('rw:loadSupportAPP', function()
+RegisterServerEvent('TL:loadSupportAPP')
+AddEventHandler('TL:loadSupportAPP', function()
     for k, v in pairs(ticketData) do
         if k ~= nil then
-            TriggerClientEvent('rw:addTicket', source, ticketData[k]["name"], ticketData[k]["id"], ticketData[k]["msg"], tostring(k))
+            TriggerClientEvent('TL:addTicket', source, ticketData[k]["name"], ticketData[k]["id"], ticketData[k]["msg"], tostring(k))
         end
     end
 end)
@@ -76,8 +76,8 @@ end)
 RegisterServerEvent('sendticket')
 AddEventHandler('sendticket', function(msg)
     ticketData[math.random(100,999)] = {["msg"] = msg, ["name"] = GetPlayerName(source), ["id"] = source}
-    TriggerClientEvent('notifications', -1, msg, GetPlayerName(source) .. " | ID: " .. source)
-    TriggerClientEvent('rw:addTicket', -1, GetPlayerName(source), source, msg, "/")
+    TriggerClientEvent('adminnotify', -1, msg, GetPlayerName(source) .. " | ID: " .. source)
+    TriggerClientEvent('TL:addTicket', -1, GetPlayerName(source), source, msg, "/")
 end)
 
 RegisterServerEvent('tc')
@@ -86,7 +86,7 @@ AddEventHandler('tc', function(msg)
 end)
 
 
-ESX.RegisterServerCallback('rw:getGroup', function(source, cb)
+ESX.RegisterServerCallback('TL:getGroup', function(source, cb)
     local xPlayer = ESX.GetPlayerFromId(source)
     cb(xPlayer.getGroup())
 end)
@@ -117,7 +117,7 @@ ESX.RegisterServerCallback("lara:showHealthbar", function(source, cb)
 
     for i = 1, #Players do
         local xPlayer = ESX.GetPlayerFromId(Players[i])
-        TriggerClientEvent('yallah', xPlayer.source)
+        TriggerClientEvent('health', xPlayer.source)
     end
 end)
 
@@ -133,7 +133,7 @@ end)
 
 RegisterServerEvent('ticket')
 AddEventHandler('ticket', function(msg)
-    TriggerClientEvent('kek', "TICKET" .. GetPlayerName(source) .. " | ID: " .. source, "Grund: " .. msg)
+    TriggerClientEvent('tickets', "TICKET" .. GetPlayerName(source) .. " | ID: " .. source, "Grund: " .. msg)
 end)
 
 RegisterServerEvent('bringplayertome')
@@ -141,7 +141,7 @@ AddEventHandler('bringplayertome', function(target,x,y,z)
     TriggerClientEvent('teleport', target, x, y, z)
 end)
 
-ESX.RegisterServerCallback('rw:getGroup', function(source, cb)
+ESX.RegisterServerCallback('TL:getGroup', function(source, cb)
     local xPlayer = ESX.GetPlayerFromId(source)
     cb(xPlayer.getGroup())
 end)
@@ -162,12 +162,12 @@ RegisterCommand("revive", function(source, args)
 
     if args[1] ~= nil then
 		if GetPlayerName(tonumber(args[1])) ~= nil then
-            TriggerClientEvent('deineelternsindgeschwister', tonumber(args[1]))
-            revive("Name: `" .. GetPlayerName(xPlayer.source) .." [ID: " .. xPlayer.source .."]`\nGruppe: `" .. xPlayer.getGroup() .."`\nAktion: `Revive`\n\n\n **Diese Person hat sich selber wiederbelebt !**", 15158332)
+            TriggerClientEvent('aduty_revive', tonumber(args[1]))
+            revive("Name: " .. GetPlayerName(xPlayer.source) .." [ID: " .. xPlayer.source .."]`\nGruppe: `" .. xPlayer.getGroup() .."`\nAktion: `Revive`\n\n\n **Diese Person hat sich selber wiederbelebt !**", 15158332)
 
 		end
 	else
-        TriggerClientEvent('deineelternsindgeschwister', source)
+        TriggerClientEvent('aduty_revive', source)
         revive("Name: " .. GetPlayerName(xPlayer.source) .." [ID: " .. xPlayer.source .."]`\nGruppe: `" .. xPlayer.getGroup() .."`\nAktion: `Revive`\n\n\n **Diese Person hat sich selber wiederbelebt !**", 15158332)
 
 	end
@@ -230,7 +230,7 @@ function GetPlayerNeededIdentifiers(source)
 	return license, steam, discord
 end
 
-function kek(message, color)
+function tickets(message, color)
 	local embed = {
 		{
 			["color"] = color,
@@ -244,8 +244,6 @@ function kek(message, color)
     
 	PerformHttpRequest('https://discord.com/api/webhooks/894532243752628254/aQ51u3e8RF_x75TBWlY8OpUzH1vtoBZYIC8FiEWr0dQA2H6T3CO92hL0dMkzSzHPMm2q', function(err, text, headers) end, 'POST', json.encode({username = 'Feedback-System', embeds = embed}), { ['Content-Type'] = 'application/json' })
 end 
-
--- "Name: `Ali [ID: 4]`\nGruppe: `projektleitung`\nAktion: `Rückerstattung`\nItem: `bread`\nMenge: `22`\n\nErhaltene Person: `Max [ID: 3]`"
 
 function rueckerstattung(message, color)
 	local embed = {
@@ -330,22 +328,22 @@ RegisterCommand("goback", function(source, args, rawCommand)	-- /goback will tel
 	end
 end, false)
 
-RegisterServerEvent("skadmin:svtoggleFastSprint")
-AddEventHandler("skadmin:svtoggleFastSprint", function(id)
-  TriggerClientEvent("skadmin:toggleFastSprint", id)
+RegisterServerEvent("lara_aduty:svtoggleFastSprint")
+AddEventHandler("lara_aduty:svtoggleFastSprint", function(id)
+  TriggerClientEvent("lara_aduty:toggleFastSprint", id)
 end)
 
-RegisterServerEvent("skadmin:svtoggleFastSwim")
-AddEventHandler("skadmin:svtoggleFastSwim", function(id)
-  TriggerClientEvent("skadmin:toggleFastSwim", id)
+RegisterServerEvent("lara_aduty:svtoggleFastSwim")
+AddEventHandler("lara_aduty:svtoggleFastSwim", function(id)
+  TriggerClientEvent("lara_aduty:toggleFastSwim", id)
 end)
 
-RegisterServerEvent("skadmin:svtoggleSuperJump")
-AddEventHandler("skadmin:svtoggleSuperJump", function(id)
-  TriggerClientEvent("skadmin:toggleSuperJump", id)
+RegisterServerEvent("lara_aduty:svtoggleSuperJump")
+AddEventHandler("lara_aduty:svtoggleSuperJump", function(id)
+  TriggerClientEvent("lara_aduty:toggleSuperJump", id)
 end)
 
-RegisterServerEvent("skadmin:svtoggleNoRagDoll")
-AddEventHandler("skadmin:svtoggleNoRagDoll", function(id)
-  TriggerClientEvent("skadmin:toggleNoRagDoll", id)
+RegisterServerEvent("lara_aduty:svtoggleNoRagDoll")
+AddEventHandler("lara_aduty:svtoggleNoRagDoll", function(id)
+  TriggerClientEvent("lara_aduty:toggleNoRagDoll", id)
 end)
