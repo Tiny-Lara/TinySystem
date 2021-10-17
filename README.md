@@ -1,10 +1,7 @@
 # TinySystem
-The TinySystem contains: Aduty, Ticket System, and many other cool things 
 
 
 Update : Aduty fix for support nofity
-
-
 
 
 
