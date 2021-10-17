@@ -2,6 +2,13 @@
 The TinySystem contains: Aduty, Ticket System, and many other cool things 
 
 
+Update : Aduty fix for support nofity
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 replace --> esx_ambulancejob/server/main.lua ----->
 
 ESX.RegisterCommand('revive', 'supporter', function(xPlayer, args, showError)
