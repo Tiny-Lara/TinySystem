@@ -48,7 +48,7 @@ end)
 
 RegisterNetEvent('ticketnotify')
 AddEventHandler('ticketnotify', function(title, msg)
-    ESX.TriggerServerCallback('rw:getGroup', function(group)
+    ESX.TriggerServerCallback('TL:getGroup', function(group)
       if group == "guide" 
       or group == "supporter" 
       or group == "moderator" 

@@ -1,12 +1,12 @@
 ESX = nil
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-local vallahduhundlarahasstrassisten = {}
+local lara_ticket = {}
 
 RegisterServerEvent('lara:closeTicket')
 AddEventHandler('lara:closeTicket', function(id)
-    TriggerClientEvent(Config.notify, vallahduhundlarahasstrassisten[id]["id"], Config.notifycolor, Config.headline, "Dein Ticket wurde geschlossen.")
+    TriggerClientEvent(Config.notify, lara_ticket[id]["id"], Config.notifycolor, Config.headline, "Dein Ticket wurde geschlossen.")
     TriggerClientEvent(Config.notify, source, Config.notifycolor, Config.headline, "Du hast das Ticket geschlossen.")
-    vallahduhundlarahasstrassisten[id] = nil
+    lara_ticket[id] = nil
 end)
 
 function revive2(message, color)
@@ -68,16 +68,16 @@ end
 
 RegisterServerEvent('lara:loadTickets')
 AddEventHandler('lara:loadTickets', function()
-    for k, v in pairs(vallahduhundlarahasstrassisten) do
+    for k, v in pairs(lara_ticket) do
         if k ~= nil then
-            TriggerClientEvent('lara:addTicket', source, vallahduhundlarahasstrassisten[k]["name"], vallahduhundlarahasstrassisten[k]["id"], vallahduhundlarahasstrassisten[k]["msg"], tostring(k))
+            TriggerClientEvent('lara:addTicket', source, lara_ticket[k]["name"], lara_ticket[k]["id"], lara_ticket[k]["msg"], tostring(k))
         end
     end
 end)
 
 RegisterServerEvent('sendticket')
 AddEventHandler('sendticket', function(msg)
-    vallahduhundlarahasstrassisten[math.random(100,999)] = 
+    lara_ticket[math.random(100,999)] = 
     {
         ["msg"] = msg, 
         ["name"] = GetPlayerName(source),
@@ -96,13 +96,13 @@ AddEventHandler('lara:revive', function(id)
 	local target = ESX.GetPlayerFromId(id)
 	local player = ESX.GetPlayerFromId(src)
 
-    TriggerClientEvent('deineelternsindgeschwister', source)
+    TriggerClientEvent('aduty_revive', source)
 end)
 
 RegisterCommand(Config.Commands.erstellen, function(source, args)
     local msg = table.concat(args, ' ')
     print(msg)
-    vallahduhundlarahasstrassisten[math.random(100,999)] = 
+    lara_ticket[math.random(100,999)] = 
     {
         ["msg"] = msg, 
         ["name"] = GetPlayerName(source),
@@ -120,10 +120,10 @@ end, false)
 
 RegisterCommand(Config.Commands.schliessen, function(source, args)
     TriggerClientEvent(Config.notify, source, Config.notifycolor, Config.headline, Config.Messages.deletemsg)
-    for k, v in pairs(vallahduhundlarahasstrassisten) do
+    for k, v in pairs(lara_ticket) do
         if k ~= nil then
-            if vallahduhundlarahasstrassisten[k]["id"] == source then
-                vallahduhundlarahasstrassisten[k] = nil
+            if lara_ticket[k]["id"] == source then
+                lara_ticket[k] = nil
             end
         end
     end
